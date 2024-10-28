@@ -1,13 +1,14 @@
 require_relative 'linked_list.rb'
 
 class HashMap < LinkedList
-  attr_reader :entries
+  attr_reader :entries, :product
   attr_accessor :capacity, :buckets
   
   def initialize(capacity = 15)
     @capacity = capacity
     @entries = 0
     @buckets = Array.new(@capacity)
+    @LOAD_FACTOR = 0.75
   end
 
   def hash(key) # produces a hash code from node's key
@@ -20,19 +21,22 @@ class HashMap < LinkedList
   def set(key, value) # creates a new node and adds it to the hash map
     node_index = hash(key)
     raise IndexError if node_index.negative? || node_index >= @buckets.length
+    @entries += 1
     new_node = Node.new(value, key)
     add_node(node_index, new_node, key) # adds node to hash map
+    resize if product <= @entries
   end
 
   def add_node(node_index, new_node, key)
-    if @buckets[node_index].nil?
+    bucket = @buckets[node_index] # reference to index
+    if bucket.nil?
       @buckets[node_index] = new_node
       LinkedList.new.head = new_node # makes first node the head of linked list
-    elsif @buckets[node_index] != nil && @buckets[node_index].key != key
-      current_node = @buckets[node_index]
+    elsif bucket != nil && bucket.key != key
+      current_node = bucket
       append(new_node, current_node)
-    elsif @buckets[node_index].key == key
-      @buckets[node_index].value = new_node.value
+    elsif bucket.key == key
+      bucket.value = new_node.value
     end
   end
 
@@ -57,17 +61,26 @@ class HashMap < LinkedList
     @buckets = Array.new(@capacity)
     buckets_copy.each {|bucket| @buckets[hash(bucket.key)] = bucket}
   end
+
+  def product
+    @LOAD_FACTOR * @capacity
+  end
 end
 
-
-map = HashMap.new
-map.set('red', 'blood')
-map.set('red', 'elephant')
-map.set('abc', 'alphabet')
-map.set('cab', 'transportation')
-map.set('bac', 'nonsense')
-map.buckets
-p map.get('red')
+test = HashMap.new
+test.set('apple', 'red')
+ test.set('banana', 'yellow')
+ test.set('carrot', 'orange')
+ test.set('dog', 'brown')
+ test.set('elephant', 'gray')
+ test.set('frog', 'green')
+ test.set('grape', 'purple')
+ test.set('hat', 'black')
+ test.set('ice cream', 'white')
+ test.set('jacket', 'blue')
+ test.set('kite', 'pink')
+ test.set('lion', 'golden')
+p test.buckets.size
 # add the resize method
 # method should spread the nodes to their appropiate indexes
 
