@@ -1,4 +1,4 @@
-run = "ruby"
+run = "ruby lib/hash_map.rb"
 [nix]
 channel = "stable-24_05"
 
