@@ -58,12 +58,6 @@ map.set('abc', 'alphabet')
 map.set('cab', 'transportation')
 map.set('bac', 'nonsense')
 p map.get('cab')
-# create get method => recieves node from entered key
-# retrieves the bucket it points to
-# if bucket == nil
-  # return nil
-# if bucket.key == raw key
-  # retrieve that node
-# if bucket.key != raw key
-  # iterate through linked list if there are further nodes (method)
-  # return nil if no further nodes
+
+# add the resize method
+# method should spread the nodes to their appropiate indexes
