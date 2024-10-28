@@ -22,7 +22,7 @@ class HashMap < LinkedList
     node_index = hash(key)
     raise IndexError if node_index.negative? || node_index >= @buckets.length
     new_node = Node.new(value, key)
-    add_node(node_index, new_node, key)
+    add_node(node_index, new_node, key) # adds node to hash map
   end
 
   def add_node(node_index, new_node, key)
@@ -34,7 +34,6 @@ class HashMap < LinkedList
       current_node = @buckets[node_index]
       append(new_node, current_node)
     elsif @buckets[node_index].key == key
-      # replaces value of existing node if raw keys match
       @buckets[node_index].value = new_node.value
     end
   end
@@ -46,7 +45,3 @@ map.set('red', 'elephant')
 map.set('abc', 'alphabet')
 map.set('cab', 'transportation')
 map.set('bac', 'nonsense')
-
-p map.buckets
-# if hashed key points to an empty index, put node there
-# if hashed key points to a filled index, append that node there
