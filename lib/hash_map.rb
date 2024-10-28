@@ -1,13 +1,12 @@
 require_relative 'linked_list.rb'
 
 class HashMap < LinkedList
-  attr_reader :collisions, :entries
+  attr_reader :entries
   attr_accessor :capacity, :buckets
   
   def initialize(capacity = 15)
     @capacity = capacity
     @entries = 0
-    @collisions = 0
     @buckets = Array.new(@capacity)
   end
 
@@ -49,7 +48,17 @@ class HashMap < LinkedList
       get_node(bucket, key)
     end
   end
+
+  def resize
+    buckets_copy = []
+    @buckets.each {|bucket| buckets_copy << bucket if bucket != nil}
+    @buckets.clear
+    @capacity *= 2
+    @buckets = Array.new(@capacity)
+    buckets_copy.each {|bucket| @buckets[hash(bucket.key)] = bucket}
+  end
 end
+
 
 map = HashMap.new
 map.set('red', 'blood')
@@ -57,7 +66,12 @@ map.set('red', 'elephant')
 map.set('abc', 'alphabet')
 map.set('cab', 'transportation')
 map.set('bac', 'nonsense')
-p map.get('cab')
-
+map.buckets
+p map.get('red')
 # add the resize method
 # method should spread the nodes to their appropiate indexes
+
+# doubles up the current size of array
+# iterates throught buckets
+# takes real value stores it in variables
+# deletes that value and stores it in a new index
