@@ -3,6 +3,9 @@ class LinkedList
   def initialze
     @haed = nil
   end
+
+  def append(node)
+  end
 end
 
 class Node
