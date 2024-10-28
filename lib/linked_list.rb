@@ -10,6 +10,17 @@ class LinkedList
     end
     current_node.next_node = new_node
   end
+
+  def get_node(node, raw_key)
+    node_needed = nil
+    current_node = node #current bucket containing the head node
+    until current_node.next_node == nil
+      current_node = current_node.next_node
+      node_needed = current_node if current_node.key == raw_key
+    end
+    node_needed.next_node = nil
+    node_needed
+  end
 end
 
 class Node
