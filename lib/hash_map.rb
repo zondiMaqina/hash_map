@@ -1,3 +1,4 @@
+require_relative 'linked_list.rb'
 class HashMap
   attr_reader :collisions, :entries
   attr_accessor :capacity, :buckets
