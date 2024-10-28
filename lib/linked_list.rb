@@ -18,8 +18,12 @@ class LinkedList
       current_node = current_node.next_node
       node_needed = current_node if current_node.key == raw_key
     end
-    node_needed.next_node = nil
-    node_needed
+    if node_needed == nil
+      nil
+    else
+      node_needed.next_node = nil
+      node_needed
+    end
   end
 end
 
