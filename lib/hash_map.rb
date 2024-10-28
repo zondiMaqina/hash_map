@@ -1,5 +1,6 @@
 require_relative 'linked_list.rb'
-class HashMap
+
+class HashMap < LinkedList
   attr_reader :collisions, :entries
   attr_accessor :capacity, :buckets
   
@@ -17,16 +18,35 @@ class HashMap
     code % @capacity
   end
 
-  def set(key, value)
+  def set(key, value) # creates a new node and adds it to the hash map
     node_index = hash(key)
     raise IndexError if node_index.negative? || node_index >= @buckets.length
     new_node = Node.new(value, key)
+    add_node(node_index, new_node, key)
+  end
+
+  def add_node(node_index, new_node, key)
+    if @buckets[node_index].nil?
+      @buckets[node_index] = new_node
+      LinkedList.new.head = new_node # makes first node the head of linked list
+      @buckets.index(new_node)
+    elsif @buckets[node_index] != nil && @buckets[node_index].key != key
+      current_node = @buckets[node_index]
+      append(new_node, current_node)
+    elsif @buckets[node_index].key == key
+      # replaces value of existing node if raw keys match
+      @buckets[node_index].value = new_node.value
+    end
   end
 end
 
 map = HashMap.new
-# initialize a set method
-# takes in a key-value pair
-# hashes the key from pair to return index for buckets list
+map.set('red', 'blood')
+map.set('red', 'elephant')
+map.set('abc', 'alphabet')
+map.set('cab', 'transportation')
+map.set('bac', 'nonsense')
+
+p map.buckets
 # if hashed key points to an empty index, put node there
 # if hashed key points to a filled index, append that node there
