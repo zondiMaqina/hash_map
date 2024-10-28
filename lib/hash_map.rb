@@ -44,5 +44,3 @@ map.set('red', 'elephant')
 map.set('abc', 'alphabet')
 map.set('cab', 'transportation')
 map.set('bac', 'nonsense')
-
-# fix length of `add node` method
