@@ -1,4 +1,5 @@
 run = "ruby lib/hash_map.rb"
+modules = ["bun-1.1"]
 [nix]
 channel = "stable-24_05"
 
