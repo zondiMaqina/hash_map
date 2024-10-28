@@ -29,7 +29,6 @@ class HashMap < LinkedList
     if @buckets[node_index].nil?
       @buckets[node_index] = new_node
       LinkedList.new.head = new_node # makes first node the head of linked list
-      @buckets.index(new_node)
     elsif @buckets[node_index] != nil && @buckets[node_index].key != key
       current_node = @buckets[node_index]
       append(new_node, current_node)
