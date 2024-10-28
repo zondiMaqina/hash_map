@@ -36,6 +36,19 @@ class HashMap < LinkedList
       @buckets[node_index].value = new_node.value
     end
   end
+
+  def get(key) # returns the value of the node with the given key
+    node_index = hash(key)
+    bucket = @buckets[node_index]
+    if bucket == nil
+      nil
+    elsif bucket.key == key
+      bucket.next_node = nil
+      bucket
+    elsif bucket.key != key
+      get_node(bucket, key)
+    end
+  end
 end
 
 map = HashMap.new
@@ -44,3 +57,13 @@ map.set('red', 'elephant')
 map.set('abc', 'alphabet')
 map.set('cab', 'transportation')
 map.set('bac', 'nonsense')
+p map.get('cab')
+# create get method => recieves node from entered key
+# retrieves the bucket it points to
+# if bucket == nil
+  # return nil
+# if bucket.key == raw key
+  # retrieve that node
+# if bucket.key != raw key
+  # iterate through linked list if there are further nodes (method)
+  # return nil if no further nodes
