@@ -3,12 +3,12 @@
 require_relative 'linked_list'
 
 class HashMap < LinkedList
-  attr_reader :entries, :product
+  attr_reader :units, :product
   attr_accessor :capacity, :buckets
 
   def initialize(capacity = 15)
     @capacity = capacity
-    @entries = 0
+    @units = 0
     @buckets = Array.new(@capacity)
     @LOAD_FACTOR = 0.75
   end
@@ -26,10 +26,10 @@ class HashMap < LinkedList
     node_index = hash(key)
     raise IndexError if node_index.negative? || node_index >= @buckets.length
 
-    @entries += 1
+    @units += 1
     new_node = Node.new(value, key)
     add_node(node_index, new_node, key) # adds node to hash map
-    resize if product <= @entries
+    resize if product <= @units
   end
 
   def add_node(node_index, new_node, key)
@@ -81,7 +81,7 @@ class HashMap < LinkedList
   end
 
   def length
-    @entries
+    @units
   end
 
   def values
@@ -96,6 +96,20 @@ class HashMap < LinkedList
       end
     end
     values
+  end
+
+  def entries
+    pairs = Array.new(0)
+    @buckets.each do |node|
+      if node != nil
+        pairs << [node.key, node.value]
+        until node.next_node == nil
+          pairs << [node.key, node.next_node.value]
+          node = node.next_node
+        end
+      end
+    end
+    pairs
   end
 
   def resize
@@ -125,5 +139,5 @@ test.set('ice cream', 'white')
 test.set('jacket', 'blue')
 test.set('kite', 'pink')
 test.set('lion', 'golden')
-p test.values
+p test.get('hat')
 
