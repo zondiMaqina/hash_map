@@ -80,6 +80,24 @@ class HashMap < LinkedList
     node_reference
   end
 
+  def length
+    @entries
+  end
+
+  def values
+    values = []
+    @buckets.each do |bucket|
+      if bucket != nil
+        values << bucket.value
+        until bucket.next_node == nil
+          values << bucket.next_node.value
+          bucket = bucket.next_node
+        end
+      end
+    end
+    values
+  end
+
   def resize
     buckets_copy = []
     @buckets.each { |bucket| buckets_copy << bucket unless bucket.nil? }
@@ -107,5 +125,5 @@ test.set('ice cream', 'white')
 test.set('jacket', 'blue')
 test.set('kite', 'pink')
 test.set('lion', 'golden')
-p test.remove('apple')
+p test.values
 
