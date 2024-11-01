@@ -73,10 +73,17 @@ class HashMap < LinkedList
     end
   end
 
+  def remove(key)
+    index = hash(key)
+    node_reference = @buckets[index]
+    @buckets[index] = nil
+    node_reference
+  end
+
   def resize
     buckets_copy = []
     @buckets.each { |bucket| buckets_copy << bucket unless bucket.nil? }
-    @buckets.clear
+    @buckets = nil
     @capacity *= 2
     @buckets = Array.new(@capacity)
     buckets_copy.each { |bucket| @buckets[hash(bucket.key)] = bucket }
@@ -100,11 +107,5 @@ test.set('ice cream', 'white')
 test.set('jacket', 'blue')
 test.set('kite', 'pink')
 test.set('lion', 'golden')
-p test.has?('elephant')
-# add the resize method
-# method should spread the nodes to their appropiate indexes
+p test.remove('apple')
 
-# doubles up the current size of array
-# iterates throught buckets
-# takes real value stores it in variables
-# deletes that value and stores it in a new index
